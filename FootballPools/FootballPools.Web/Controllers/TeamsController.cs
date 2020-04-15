@@ -54,13 +54,30 @@ namespace FootballPools.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,LogoPath")] TeamEntity teamEntity)
+        public async Task<IActionResult> Create(TeamEntity teamEntity)
         {
             if (ModelState.IsValid)
             {
                 _context.Add(teamEntity);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                try
+                {
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+                catch (Exception ex)
+                {
+                    if(ex.InnerException.Message.Contains("duplicate"))
+                    {
+                        ModelState.AddModelError(string.Empty, "Already exist a team with the same name.");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
+                    }
+
+                }
+
+                
             }
             return View(teamEntity);
         }
@@ -86,7 +103,7 @@ namespace FootballPools.Web.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,LogoPath")] TeamEntity teamEntity)
+        public async Task<IActionResult> Edit(int id, TeamEntity teamEntity)
         {
             if (id != teamEntity.Id)
             {
@@ -95,23 +112,24 @@ namespace FootballPools.Web.Controllers
 
             if (ModelState.IsValid)
             {
+                _context.Add(teamEntity);
                 try
                 {
-                    _context.Update(teamEntity);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                 catch (Exception ex)
                 {
-                    if (!TeamEntityExists(teamEntity.Id))
+                    if (ex.InnerException.Message.Contains("identity"))
                     {
-                        return NotFound();
+                        ModelState.AddModelError(string.Empty, $"Already exist a team : {teamEntity.Name}.");
                     }
                     else
                     {
-                        throw;
+                        ModelState.AddModelError(string.Empty, ex.InnerException.Message);
                     }
+
                 }
-                return RedirectToAction(nameof(Index));
             }
             return View(teamEntity);
         }
