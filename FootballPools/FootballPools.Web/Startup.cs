@@ -1,4 +1,5 @@
 using FootballPools.Web.Data;
+using FootballPools.Web.Helpers;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace FootballPools.Web
             services.AddControllersWithViews();
             services.AddDbContext<DataContext>(options => 
                options.UseSqlServer(Configuration.GetConnectionString("Conexion")));
+            services.AddScoped<IImageHelper, ImageHelper>();
         }
 
 
