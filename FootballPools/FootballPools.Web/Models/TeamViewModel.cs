@@ -10,7 +10,10 @@ namespace FootballPools.Web.Models
 {
     public class TeamViewModel : TeamEntity
     {
-        [Display(Name ="Logo")]
-        public IFormFile LogoFile { get; set; }
+        [Display(Name = "Logo")]
+        public IFormFile LogoFile
+        {
+            get; set;
+        }
     }
 }

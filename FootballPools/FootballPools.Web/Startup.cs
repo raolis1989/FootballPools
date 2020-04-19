@@ -24,6 +24,7 @@ namespace FootballPools.Web
             services.AddDbContext<DataContext>(options => 
                options.UseSqlServer(Configuration.GetConnectionString("Conexion")));
             services.AddScoped<IImageHelper, ImageHelper>();
+            services.AddScoped<IConverterHelper, ConvertHelper>();
         }
 
 
