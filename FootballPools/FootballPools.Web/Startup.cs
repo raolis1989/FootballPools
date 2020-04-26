@@ -20,11 +20,18 @@ namespace FootballPools.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+          
             services.AddDbContext<DataContext>(options => 
                options.UseSqlServer(Configuration.GetConnectionString("Conexion")));
             services.AddScoped<IImageHelper, ImageHelper>();
             services.AddScoped<IConverterHelper, ConvertHelper>();
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddDbContext<DataContext>(cfg =>
+            {
+                cfg.UseSqlServer(Configuration.GetConnectionString("SoccerConnection"));
+            });
+            services.AddTransient<SeedDb>();
+
         }
 
 
