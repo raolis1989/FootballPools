@@ -9,5 +9,6 @@ namespace FootballPools.Web.Helpers
     public interface ICombosHelper
     {
         IEnumerable<SelectListItem> GetComboTeams();
+        IEnumerable<SelectListItem> GetComboTeams(int id);
     }
 }

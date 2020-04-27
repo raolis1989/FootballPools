@@ -129,5 +129,41 @@ namespace FootballPools.Web.Helpers
         }
 
 
+        public async Task<MatchEntity> ToMatchEntityAsync(MatchViewModel model, bool isNew)
+        {
+            return new MatchEntity
+            {
+                Date = model.Date.ToUniversalTime(),
+                GoalsLocal = model.GoalsLocal,
+                GoalsVisitor = model.GoalsVisitor,
+                Group = await _context.Groups.FindAsync(model.GroupId),
+                Id = isNew ? 0 : model.Id,
+                IsClosed = model.IsClosed,
+                Local = await _context.Teams.FindAsync(model.LocalId),
+                Visitor = await _context.Teams.FindAsync(model.VisitorId)
+            };
+        }
+
+        public MatchViewModel ToMatchViewModel(MatchEntity matchEntity)
+        {
+            return new MatchViewModel
+            {
+                Date = matchEntity.Date.ToLocalTime(),
+                GoalsLocal = matchEntity.GoalsLocal,
+                GoalsVisitor = matchEntity.GoalsVisitor,
+                Group = matchEntity.Group,
+                GroupId = matchEntity.Group.Id,
+                Id = matchEntity.Id,
+                IsClosed = matchEntity.IsClosed,
+                Local = matchEntity.Local,
+                LocalId = matchEntity.Local.Id,
+                Teams = _combosHelper.GetComboTeams(matchEntity.Group.Id),
+                Visitor = matchEntity.Visitor,
+                VisitorId = matchEntity.Visitor.Id
+            };
+        }
+
+
+
     }
 }
