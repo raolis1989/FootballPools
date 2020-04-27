@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FootballPools.Web.Models;
 
 namespace FootballPools.Web.Data
 {
@@ -28,6 +29,8 @@ namespace FootballPools.Web.Data
                 .HasIndex(t => t.Name)
                 .IsUnique();
         }
+
+        public DbSet<FootballPools.Web.Models.GroupViewModel> GroupViewModel { get; set; }
 
     }
 }
