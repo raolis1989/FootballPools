@@ -10,14 +10,14 @@ using Microsoft.EntityFrameworkCore;
 
 namespace FootballPools.Web.Controllers
 {
-    public class TournementsController : Controller
+    public class TournamentsController : Controller
     {
         private readonly DataContext _context;
         private readonly IImageHelper _imageHelper;
         private readonly IConverterHelper _converterHelper;
 
 
-        public TournementsController(DataContext context, IImageHelper imageHelper, IConverterHelper converterHelper)
+        public TournamentsController(DataContext context, IImageHelper imageHelper, IConverterHelper converterHelper)
         {
             _context = context;
             _imageHelper = imageHelper;
